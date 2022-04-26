@@ -1,0 +1,59 @@
+# Tips:
+# select_dtypes (Para hacer la selección de columnas mas elegante)
+# map, replace, para reemplazar datos
+# df_entrenamiento.loc[df_entrenamiento['bestseller'] == "yes", 'bestseller'] = "si" 
+# usar dummies para transformar categorías
+
+# Primero hay que unir los df de entrenamiento y prueba
+pd.concat([df_entrenamiento, df_prueba], axis=0) # Axis 0 suma filas
+# Hacer las operaciones sobre los dataframes unidos
+# Volver a separar tomando bestseller.isna por ejemplo
+
+df['list_price'].str.replace('$', '').astype('float')
+df['discount_price'].fillna(0) # Malll, en realidad tengo que asignarle el precio de lista
+df.loc[df['discount_price'].isna(), 'discount_price'] = 0 
+
+df['discount_price'] = df['discount_price'].fillna(df['list_price'])
+df['discount_price'].fillna(df['list_price'], inplace=True)
+
+# Quita la palabra 'preguntas' para dejar sólo el número.
+df.loc[df['is_practice_test_course'] == True, 'content_info_short'].str.replace(' preguntas','').astype(int)
+
+pd.get_dummies(df, columns=['locale']) # Te crea nuevas columnas con 0 o 1.
+
+Fechas:
+read_excel(...parse_dates....)
+
+columna.day_of_week
+columna.year
+columna.date_range
+
+# Para separar por ejemplo una columna con "5 horas"
+....str.split(" ").str[1]
+
+
+precio contra cantidad de horas puede ser un caso de Multivariados    
+    
+Librerías:
+- PyODS
+- TODS
+- Scikit (sklearn para importar en python)
+    
+ https://us02st1.zoom.us/web_client/0urcsz4/html/externalLinkPage.html?ref=https://colab.research.google.com/drive/1WSgOF2KR6K7opPIi6z3hydsA_FZ5Rura?usp=sharing
+ 
+- digo que NO, me va a pegar al 80%
+- ver si hay pseudo duplicados
+- .drop_duplicates()
+- Saco al azar el 20% de los NO (Para balancear un poco la muestra)
+- borrar pseudoduplicados, para que quede mas duplicada la muestra (hay que probar)
+- Instructures
+  - Ver cantidad del curso
+  - Cantidad de cursos que tiene un instructor
+- Hacer supercategorías (diseño, desarrollo -> Sistemas)
+- Poner una marca si tiene o no descuento.
+ 
+ VÍ, dos horas y medias.
+
+NOTA MÍA:
+- Tomar las proporciones por cada atributo.
+  - OJO! Si el modelo es bueno debería predecirlo sólo.
